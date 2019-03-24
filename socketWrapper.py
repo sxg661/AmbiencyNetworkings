@@ -30,7 +30,7 @@ class SocketWrapper:
 
     def refillQueue(self):
         commands = self.connection.recv(2048).decode('utf-8')
-        print("Recieved" + commands)
+        print("Recieved: " + commands)
         commands = self.split_message(commands)
         for command in commands:
             self.inputQueue.put(command)
