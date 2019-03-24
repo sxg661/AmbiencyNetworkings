@@ -91,10 +91,11 @@ if __name__ == "__main__":
     s = socket.socket()         # Create a socket object
     host = socket.gethostname() # Get local machine name
     port = 12345                # Reserve a port for your service.
-    s.bind((host, port))        # Bind to the port
+    s.bind(("127.0.0.1", port))        # Bind to the port
     setVenues(VenueClass.getVenues())
 
     s.listen(5)                 # Now wait for client connection.
+    print("server started")
     while True:
        c, addr = s.accept()     # Establish connection with client.
        client = SocketWrapper(c)
@@ -107,8 +108,7 @@ if __name__ == "__main__":
            appThread.start()
            
        elif (clientType == "pi"):
-           client.send("thank you for connecting, python client")
-           client.send("goodbye")
+           client.send("go away, python client")
            c.close()
 
        else:
