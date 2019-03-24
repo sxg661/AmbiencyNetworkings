@@ -1,35 +1,12 @@
 import socket               # Import socket module
 
 
-
-def split_message(message):
-    currentWord = ""
-    words = []
-    inNewLine = False
-    for ch in message:
-        if(ch == '\n' and not inNewLine):
-            inNewLine = True
-        elif (ch == '\n' and inNewLine):
-            inNewLine = False
-            words.append(currentWord)
-            currentWord = ""
-        elif(ch != '\n' and inNewLine):
-            currentWord = currentWord + '\n' + ch
-        else:
-            currentWord = currentWord + ch
-
-    if(currentWord != ""):
-        words.append(currentWord)
-    return words
-
-
-
 s = socket.socket()         # Create a socket object
 host = socket.gethostname() # Get local machine name
 port = 12345                # Reserve a port for your service.
 
 
-s.connect((host, port))
+s.connect(("127.0.0.1", port))
 print("hello")
 
 s.send(b"app\n\n")
