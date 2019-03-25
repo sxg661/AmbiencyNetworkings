@@ -15,7 +15,10 @@ print(s.recv(1024).decode('utf-8'))
 s.send(b"SEA")
 for i in range(0,100):
     print("cake")
-s.send(b"RCH\n\n")
+s.send(b"RC")
+for i in range(0,100):
+    print("cake")
+s.send(b"H\n\n")
 s.send(b"Bar\n\n")
 
 response = s.recv(2048).decode('utf-8')

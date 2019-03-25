@@ -25,7 +25,7 @@ class SocketWrapper:
                 currentWord = currentWord + ch
 
         if(currentWord != ""):
-            self.leftover = currentWord
+            self.leftover = self.leftover + currentWord
         return words
 
     def refillQueue(self):
