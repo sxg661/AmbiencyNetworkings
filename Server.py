@@ -41,7 +41,7 @@ def getVenues():
 
 def appClientThread(c, client):
 
-    client.send("thank you for connecting, C# client")
+    client.sendToUnity("thank you for connecting, C# client")
     
     currentVenues = []
     running = True
@@ -64,19 +64,19 @@ def appClientThread(c, client):
 
             for venue in venuesToSend:
                 
-                client.send("VENUE")
-                client.send(str(venue))
+                client.sendToUnity("VENUE")
+                client.sendToUnity(str(venue))
 
-            client.send("DISPLAY") 
+            client.sendToUnity("DISPLAY") 
         elif command == "DISCONNECT":         
             running = False
         else:
             error = "Invalid Command : {}".format(command)
-            client.send(error)
+            client.sendToUnity(error)
 
 
 
-    client.send("Goodbye") 
+    client.sendToUnity("Goodbye") 
     print("client disconnected")
     c.close()
 
@@ -109,6 +109,7 @@ if __name__ == "__main__":
            
        elif (clientType == "pi"):
            client.send("go away, python client")
+           print("client disconnected")
            c.close()
 
        else:

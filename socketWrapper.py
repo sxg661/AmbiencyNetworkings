@@ -12,15 +12,15 @@ class SocketWrapper:
         words = []
         inNewLine = False
         for ch in message:
-            if(ch == '\n' and not inNewLine):
+            if(ch == '|' and not inNewLine):
                 inNewLine = True
-            elif (ch == '\n' and inNewLine):
+            elif (ch == '|' and inNewLine):
                 inNewLine = False
                 words.append(self.leftover + currentWord)
                 currentWord = ""
                 self.leftover = ""
-            elif(ch != '\n' and inNewLine):
-                currentWord = currentWord + '\n' + ch
+            elif(ch != '|' and inNewLine):
+                currentWord = currentWord + '|' + ch
             else:
                 currentWord = currentWord + ch
 
@@ -30,19 +30,25 @@ class SocketWrapper:
 
     def refillQueue(self):
         commands = self.connection.recv(2048).decode('utf-8')
-        print("Recieved: " + commands)
+        #print("Recieved: " + commands)
         commands = self.split_message(commands)
         for command in commands:
             self.inputQueue.put(command)
 
     
     def send(self, string):
-        self.connection.send(bytes(string + "\n\n", 'utf-8'))
+        self.connection.send(bytes(string + "||", 'utf-8'))
 
+    def sendToUnity(self, string):
+        self.connection.send(bytes(string + "\n", 'utf-8'))
+        
     def recv(self):
         while(self.inputQueue.empty()):
             self.refillQueue()
-        return self.inputQueue.get()
+        received = self.inputQueue.get()
+        print("Received: " + received)
+        return received
+
 
         
 
