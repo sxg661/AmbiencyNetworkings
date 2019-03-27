@@ -63,7 +63,8 @@ def appClientThread(c, client):
             venuesToSend = VenueClass.filter(getVenues(), venueType)
 
             for venue in venuesToSend:
-                
+
+                print("SendingVenueData")
                 client.sendToUnity("VENUE")
                 client.sendToUnity(str(venue))
 
