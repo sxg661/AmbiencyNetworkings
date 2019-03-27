@@ -28,6 +28,8 @@ def setVenues(newVenues):
     venues = newVenues
     lock.release()
 
+def replaceVenues(newVenue):
+    return
 
 def getVenues():
     global lock
@@ -39,7 +41,7 @@ def getVenues():
 
     
 
-def appClientThread(c, client):
+def appClient(c, client):
 
     client.sendToUnity("thank you for connecting, C# client")
     
@@ -77,22 +79,59 @@ def appClientThread(c, client):
 
 
 
-    client.sendToUnity("Goodbye") 
-    print("client disconnected")
+    
+
+
+def piClient(c, client):
+
+    running = True
+    while(running):
+        command = client.recv()
+
+        if(command == "UPDATE"):
+            print("VENUE: " + client.recv())
+        elif(command == "DISCONNECT"):
+            running = False
+        else:
+            error = "Invalid Command : {}".format(command)
+            print(error)
+            client.send(error)
+    return
+    
+
+def clientThr(c,client):
+
+    running = True
+    while(running):
+        clientType = client.recv()
+
+        if(clientType == "app"):
+           print("app connected")
+           appClient(c, client)
+           running = False
+        elif (clientType == "pi"):
+           print("python client connected")
+           piClient(c,client)
+           running = False
+        elif (clientType == "DISCONNECT"):
+           running = False
+        else:
+           error = ("ERROR: INVALID Client Type : {}".format(clientType))
+           print(error)
+           client.send(error)
+
+    client.send("goodbye")
+    print("Client Disconnected")
     c.close()
-
-
-
-
-
-
+          
     
 
 if __name__ == "__main__":
     s = socket.socket()         # Create a socket object
     host = socket.gethostname() # Get local machine name
     port = 12345                # Reserve a port for your service.
-    s.bind(("127.0.0.1", port))        # Bind to the port
+    #s.bind(("192.168.0.101", port))        # Bind to the port
+    s.bind(("192.168.0.101", port)) 
     setVenues(VenueClass.getVenues())
 
     s.listen(5)                 # Now wait for client connection.
@@ -102,22 +141,10 @@ if __name__ == "__main__":
        client = SocketWrapper(c)
        print('Got connection')
        #read a byte array from a socket
-       clientType = client.recv()
-      
-       if(clientType == "app"):
-           appThread = threading.Thread(target = appClientThread, args = (c, client))
-           appThread.start()
-           
-       elif (clientType == "pi"):
-           client.send("go away, python client")
-           print("client disconnected")
-           c.close()
 
-       else:
-           error = ("ERROR: INVALID Client Type : {}".format(data))
-           client.send(error)
-           c.close()
-          
+       clientThread = threading.Thread(target = clientThr, args = (c, client, ))
+       clientThread.start()
+       
                        
 
 
