@@ -21,6 +21,7 @@ class SocketWrapper:
                 self.leftover = ""
             elif(ch != '|' and inNewLine):
                 currentWord = currentWord + '|' + ch
+                inNewLine = False
             else:
                 currentWord = currentWord + ch
 
