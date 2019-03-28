@@ -36,7 +36,7 @@ print(s.recv(1024).decode('utf-8'))
 
 s.send(b"pi")
 s.send(b"UPDATE")
-s.send(b
+s.send(b"
 s.send(b"DISCONNECT||")
 print(s.recv(1024).decode('utf-8'))
 

@@ -28,7 +28,8 @@ def setVenues(newVenues):
     venues = newVenues
     lock.release()
 
-def replaceVenues(newVenue):
+def replaceVenue(newVenue):
+    venueData = newVenue.split
     return
 
 def getVenues():
@@ -100,29 +101,36 @@ def piClient(c, client):
     
 
 def clientThr(c,client):
+    
+    try:
+        running = True
+        while(running):
+            clientType = client.recv()
 
-    running = True
-    while(running):
-        clientType = client.recv()
+            if(clientType == "app"):
+               print("app connected")
+               appClient(c, client)
+               running = False
+            elif (clientType == "pi"):
+               print("python client connected")
+               piClient(c,client)
+               running = False
+            elif (clientType == "DISCONNECT"):
+               running = False
+            else:
+               error = ("ERROR: INVALID Client Type : {}".format(clientType))
+               print(error)
+               client.send(error)
 
-        if(clientType == "app"):
-           print("app connected")
-           appClient(c, client)
-           running = False
-        elif (clientType == "pi"):
-           print("python client connected")
-           piClient(c,client)
-           running = False
-        elif (clientType == "DISCONNECT"):
-           running = False
-        else:
-           error = ("ERROR: INVALID Client Type : {}".format(clientType))
-           print(error)
-           client.send(error)
-
-    client.send("goodbye")
-    print("Client Disconnected")
-    c.close()
+        client.send("goodbye")
+        print("Client Disconnected")
+        c.close()
+    except Exception as e:
+       print("Error: " + e)
+       c.close()
+       
+    
+    
           
     
 
@@ -130,8 +138,8 @@ if __name__ == "__main__":
     s = socket.socket()         # Create a socket object
     host = socket.gethostname() # Get local machine name
     port = 12345                # Reserve a port for your service.
-    #s.bind(("192.168.0.101", port))        # Bind to the port
-    s.bind(("192.168.0.101", port)) 
+    s.bind(("127.0.0.1", port))        # Bind to the port
+    #s.bind(("192.168.0.101", port)) 
     setVenues(VenueClass.getVenues())
 
     s.listen(5)                 # Now wait for client connection.
