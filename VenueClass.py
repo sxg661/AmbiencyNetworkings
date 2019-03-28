@@ -13,7 +13,7 @@ class VenueInfo:
     self.distance = dist
 
   def __str__(self):
-    return """{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}""".format(self.ID, self.name, self.venueType,self.occupancy,self.humidity,self.light,self.temperature,self.sound,self.distance)
+    return "{0}|{1}|{2}|{3}|{4}|{5}|{6}|{7}|{8}".format(self.ID, self.name, self.venueType,self.occupancy,self.humidity,self.light,self.temperature,self.sound,self.distance)
           
     
 
