@@ -1,4 +1,5 @@
 import queue
+#author: Sophie Guile
 
 class SocketWrapper:
 
