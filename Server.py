@@ -19,6 +19,8 @@ lock = Lock()
 '''messages are seperated by double new lines, so that new lines can be
 used as seperators inside messages'''
 
+#author Sophie Guile
+
 
 
 def setVenues(newVenues):
