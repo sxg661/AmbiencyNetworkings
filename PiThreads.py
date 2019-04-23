@@ -8,6 +8,8 @@ import json
 import VenueClass
 import math
 
+#author James Adey
+
 exitFlag = 0
 
 class PiToArd(threading.Thread):
