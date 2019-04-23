@@ -1,5 +1,7 @@
 import socket               # Import socket module
 
+#author Sophie Guile
+
 
 s = socket.socket()         # Create a socket object
 host = socket.gethostname() # Get local machine name
