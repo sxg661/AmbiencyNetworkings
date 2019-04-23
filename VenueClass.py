@@ -1,3 +1,5 @@
+#author Sophie Guile
+
 class VenueInfo:
 
 
